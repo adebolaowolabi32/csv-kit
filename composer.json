@@ -1,0 +1,44 @@
+{
+    "name": "cynthiaowolabi/csv-kit",
+    "description": "Streaming validation for one-column email CSV imports with stable row cursors.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fieldnotes\\CsvKit\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5 || ^12.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fieldnotes\\CsvKit\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --bootstrap vendor/autoload.php tests"
+    },
+    "keywords": [
+        "csv",
+        "email",
+        "streaming",
+        "validation",
+        "imports"
+    ],
+    "homepage": "https://github.com/adebolaowolabi32/csv-kit",
+    "authors": [
+        {
+            "name": "Cynthia Owolabi",
+            "homepage": "https://adebolaowolabi32.github.io/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/adebolaowolabi32/csv-kit/issues",
+        "source": "https://github.com/adebolaowolabi32/csv-kit"
+    }
+}
