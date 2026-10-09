@@ -1,5 +1,7 @@
 # CSV Kit
 
+[![Packagist version](https://img.shields.io/packagist/v/cynthiaowolabi/csv-kit)](https://packagist.org/packages/cynthiaowolabi/csv-kit)
+
 [![Tests](https://github.com/adebolaowolabi32/csv-kit/actions/workflows/tests.yml/badge.svg)](https://github.com/adebolaowolabi32/csv-kit/actions/workflows/tests.yml)
 
 A framework-independent PHP reader for **one-column email CSV files**, extracted from [Fieldnotes Academy](https://github.com/adebolaowolabi32/fieldnotes-academy). It streams validated rows and exposes stable, one-based data-row cursors for applications that need resumable imports.
@@ -8,7 +10,7 @@ A framework-independent PHP reader for **one-column email CSV files**, extracted
 
 Requires PHP 8.3 or newer. No Laravel dependency and no runtime Composer dependencies.
 
-After the package is indexed on Packagist:
+Install from [Packagist](https://packagist.org/packages/cynthiaowolabi/csv-kit):
 
 ```sh
 composer require cynthiaowolabi/csv-kit:^1.0
