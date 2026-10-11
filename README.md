@@ -8,7 +8,7 @@ A framework-independent PHP reader for **one-column email CSV files**, extracted
 
 ## Install
 
-Requires PHP 8.3 or newer. No Laravel dependency and no runtime Composer dependencies.
+Requires PHP 8.3 or newer. The library runs on PHP alone.
 
 Install from [Packagist](https://packagist.org/packages/cynthiaowolabi/csv-kit):
 
@@ -35,15 +35,15 @@ alex@example.test
 maya@example.test
 ```
 
-With `after: 1`, the reader skips data row 1 and yields row 2 as `2 => ['email' => 'maya@example.test']`. It does not save checkpoints itself.
+With `after: 1`, the reader skips data row 1 and yields row 2 as `2 => ['email' => 'maya@example.test']`. The calling application saves checkpoints.
 
 ## Validation and normalization
 
 - Exactly one header named `email`, case-insensitive; UTF-8 BOM and surrounding header whitespace are accepted.
 - Standard CSV quoting and CRLF line endings are supported through PHP's `fgetcsv`.
-- Email values are trimmed, lowercased and validated with `FILTER_VALIDATE_EMAIL`, with a maximum of 254 bytes. Lowercasing the entire address is a deliberate import convention; local-part case distinctions are not retained.
+- Email values are trimmed, lowercased and validated with `FILTER_VALIDATE_EMAIL`, with a maximum of 254 bytes. Lowercasing the entire address is a deliberate import convention; this also normalizes the local part.
 - Empty files, wrong headers, extra columns, blank records and invalid addresses throw `InvalidArgumentException`. Data errors include the one-based row number.
-- Errors stop iteration; no partial success report or error collection is provided.
+- Iteration stops at the first error.
 - The file handle closes when the generator finishes or is destroyed.
 
 Catch errors around iteration, since generator execution starts when it is consumed:
@@ -60,11 +60,11 @@ try {
 
 ## Resume contract and boundaries
 
-Keep the source file immutable between attempts. Resume uses a **row cursor**, not a byte offset: skipped rows are scanned again and are not revalidated. Persist the cursor only after successfully committing that row's effects. The application must enforce idempotency and coordinate concurrent workers.
+Keep the source file immutable between attempts. Resume uses a saved **row number**: the reader scans past earlier rows and validates subsequent rows. Persist the cursor only after successfully committing that row's effects. The application must enforce idempotency and coordinate concurrent workers.
 
-The library does not provide durable checkpoints, queues, database transactions, rollback, account lookup or exactly-once processing. [Fieldnotes Academy's cohort importer](https://github.com/adebolaowolabi32/fieldnotes-academy) demonstrates those responsibilities in Laravel.
+The calling application manages durable checkpoints, queues, database transactions, rollback, account lookup and idempotency. [Fieldnotes Academy's cohort importer](https://github.com/adebolaowolabi32/fieldnotes-academy) demonstrates those responsibilities in Laravel.
 
-Memory usage is bounded by the largest row, not by the full file. This is not a general-purpose CSV mapper or a strict RFC CSV syntax validator; PHP's CSV parser is permissive. Limit input size in the calling application when handling untrusted uploads.
+Memory usage scales with the largest row. The reader handles email CSV files using PHP's permissive CSV parser. Limit input size in the calling application when handling untrusted uploads.
 
 ## Development
 
